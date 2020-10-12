@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
@@ -28,11 +29,13 @@ public class CozinhaRepositoryImpl implements CozinhaRepository{
 	}
 
 	@Override
+	@Transactional
 	public Cozinha salvar(Cozinha cozinha) {
 		return manager.merge(cozinha);
 	}
 
 	@Override
+	@Transactional
 	public void remove(Cozinha cozinhaParam) {
 		Cozinha cozinha = manager.find(Cozinha.class, cozinhaParam.getId());
 		manager.remove(cozinha);
