@@ -33,21 +33,29 @@ public class CadastroRestauranteService {
 	}
 
 	@Transactional
-	public Restaurante atualizar(Long id, Restaurante restauranteParam) {
-		Restaurante atual = restauranteRepository.busca(id);
+	public Restaurante atualizar(Restaurante restauranteParam) {
+		Long restauranteId = restauranteParam.getId();
+		Restaurante atual = restauranteRepository.busca(restauranteId);
 		if (atual==null) {
 			throw new EntidadeNaoEncontradaException(
-					String.format("Restaurante código %d não cadastrado.", id));
+					String.format("Restaurante código %d não cadastrado.", restauranteId));
 		}
 		
-		Long idCozinha = restauranteParam.getCozinha().getId();
-		Cozinha cozinha = cozinhaRepository.buscar(idCozinha);
+		Long cozinhaId= restauranteParam.getCozinha().getId();
+		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
 		if (cozinha==null) {
 			throw new EntidadeNaoEncontradaException(
-					String.format("Cozinha código %d não cadastrada.", idCozinha));
+					String.format("Cozinha código %d não cadastrada.", cozinhaId));
 		}
 		atual.setCozinha(cozinha);
 		BeanUtils.copyProperties(restauranteParam, atual, "id", "cozinha");
 		return this.restauranteRepository.salvar(atual);
 	}
+	
+//	@Transactional
+//	public void remover(Long id) {
+//		try {
+//			restauranteRepository.remove(restaurante);
+//		} catch ( )
+//	}
 }
