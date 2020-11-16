@@ -15,11 +15,7 @@ public class RemocaoConsultaCozinhaMain {
 				.web(WebApplicationType.NONE)
 				.run(args);
 		CozinhaRepositoryImpl cadastro = applicationContext.getBean(CozinhaRepositoryImpl.class);
-		
-		Cozinha cozinha = new Cozinha();
-		cozinha.setId(1l);
-		
-		cadastro.remove(cozinha);
+		cadastro.remove(1l);
 		System.out.println("Removida cozinha");
 	}
 }
