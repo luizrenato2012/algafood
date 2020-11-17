@@ -25,18 +25,16 @@ public class CadastroCidadeService {
 	@Transactional
 	public Cidade salvar(Cidade cidade) {
 		Long idEstado = cidade.getEstado().getId();
-		Estado estado = estadoRepository.buscar(idEstado);
-		if (estado ==null) {
-			throw new EntidadeNaoEncontradaException(String.format("Estado código %d não encontrado", idEstado));
-		}
+		Estado estado = estadoRepository.findById(idEstado).orElseThrow(()->
+			new EntidadeNaoEncontradaException(String.format("Estado código %d não encontrado", idEstado)));
 		cidade.setEstado(estado);
-		return cidadeRepository.salvar(cidade);
+		return cidadeRepository.save(cidade);
 	}
 	
 	@Transactional
 	public void excluir(Long id) {
 		try {
-			cidadeRepository.remove(id);
+			cidadeRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(
 					String.format("Não foi encontrada cidade com código %d", id));

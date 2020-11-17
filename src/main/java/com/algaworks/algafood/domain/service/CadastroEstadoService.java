@@ -25,12 +25,12 @@ public class CadastroEstadoService {
 //	}
 	
 	public Estado salvar(Estado estado) {
-		return repository.salvar(estado);
+		return repository.save(estado);
 	}
 	
 	public void remover(Long id) {
 		try {
-			repository.remover(id);
+			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(String.format("Não existe um cadastro de estado código %d.", id));
 		} catch (DataIntegrityViolationException e) {
